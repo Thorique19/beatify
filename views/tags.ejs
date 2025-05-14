@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Tags</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-music"></i>
+            <h2>MusicMatch</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
+            <li><a href="#" class="active"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-heart"></i> <span>Favorites</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-history"></i> <span>History</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Fine-tune Your <%= genre %> Experience</h1>
+        </div>
+
+        <div class="form-container">
+            <form action="/recommend" method="POST">
+                <input type="hidden" name="genre" value="<%= genre %>">
+                
+                <div class="form-group">
+                    <label>Select tags that match your mood:</label>
+                    <div class="tags-grid">
+                        <% tags.forEach((tag, index) => { %>
+                            <div class="tag-item">
+                                <input type="checkbox" id="tag-<%= index %>" name="tags" value="<%= tag %>">
+                                <label for="tag-<%= index %>"><%= tag %></label>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                    <a href="/" class="btn btn-back">
+                        <i class="fa-solid fa-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Get Recommendations
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add animations and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate tags when clicked
+            const tagItems = document.querySelectorAll('.tag-item input');
+            
+            tagItems.forEach(tag => {
+                tag.addEventListener('change', function() {
+                    if(this.checked) {
+                        this.parentElement.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            this.parentElement.style.transform = 'scale(1)';
+                        }, 200);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

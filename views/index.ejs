@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beatify</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css"> <!-- External CSS -->
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <i class="fa-solid fa-music"></i>
+            <h2>Beatify</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="/" class="active"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i> <span>Search</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-heart"></i> <span>Favorites</span></a></li>
+            <li><a href="#"><i class="fa-solid fa-history"></i> <span>History</span></a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Let's find your Perfect Songs with Beatify!</h1>
+        </div>
+
+        <div class="form-container">
+            <form action="/tags" method="POST">
+                <div class="form-group">
+                    <label for="genre">What genre are you in the mood for?</label>
+                    <select name="genre" id="genre" class="form-control" required>
+                        <% genres.forEach(genre => { %>
+                            <option value="<%= genre %>"><%= genre %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-arrow-right"></i> Next Step
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create hover effect for genre selection
+            const genreSelect = document.getElementById('genre');
+            genreSelect.addEventListener('change', function() {
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>
