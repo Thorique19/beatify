@@ -72,7 +72,7 @@ app.post('/recommend', async (req, res) => {
         name: song.name,
         artist: song.artist,
         tags: song.tags,
-        spotifyId: song.spotifyId, // Ensure that this column exists in your CSV
+        spotifyId: song.spotify_id, // Ensure that this column exists in your CSV
         probability: selectedTags.filter(tag => song.tags.includes(tag)).length / selectedTags.length,  // Probability calculation
       }))
       .filter(song => song.probability >= threshold)  // Filter songs below threshold
