@@ -4,11 +4,10 @@ const fs = require('fs');
 const { parse } = require('csv-parse'); // Correct import for async parsing
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(express.static('public'));
 
 // Middleware to serve static files (for CSS, etc.)
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true }));  // To parse form data
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true })); // To parse form data
 
 // Read the CSV file (replace with your CSV file path)
 const parseCSV = () => {
@@ -54,7 +53,7 @@ app.post('/tags', async (req, res) => {
 app.post('/recommend', async (req, res) => {
   const { genre, tags } = req.body;
   try {
-    // Pastikan tags selalu berupa array
+    // Ensure tags is always an array
     const selectedTags = Array.isArray(tags) ? tags : [tags];
     
     const data = await parseCSV();
@@ -64,19 +63,20 @@ app.post('/recommend', async (req, res) => {
       song.tags.includes(genre) && selectedTags.some(tag => song.tags.includes(tag))
     );
 
-    // Ambang batas probabilitas (misalnya 50%)
-    const threshold = 0.5;  // Anda bisa mengubah angka ini sesuai kebutuhan
+    // Threshold for probability (e.g., 50%)
+    const threshold = 0.5;  // You can adjust this number based on your needs
 
-    // Menghitung probabilitas dan menyaring lagu berdasarkan threshold
+    // Calculate probability and filter songs based on threshold
     const recommendations = filteredSongs
       .map(song => ({
         name: song.name,
         artist: song.artist,
         tags: song.tags,
-        probability: selectedTags.filter(tag => song.tags.includes(tag)).length / selectedTags.length,  // Hitung probabilitas kecocokan
+        spotifyId: song.spotifyId, // Ensure that this column exists in your CSV
+        probability: selectedTags.filter(tag => song.tags.includes(tag)).length / selectedTags.length,  // Probability calculation
       }))
-      .filter(song => song.probability >= threshold)  // Menyaring lagu dengan probabilitas di bawah threshold
-      .sort((a, b) => b.probability - a.probability);  // Mengurutkan lagu berdasarkan probabilitas tertinggi
+      .filter(song => song.probability >= threshold)  // Filter songs below threshold
+      .sort((a, b) => b.probability - a.probability);  // Sort by highest probability
 
     res.render('result', { songs: recommendations });
   } catch (err) {
@@ -84,8 +84,6 @@ app.post('/recommend', async (req, res) => {
     res.status(500).send("Error recommending songs");
   }
 });
-
-
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');

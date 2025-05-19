@@ -12,7 +12,7 @@
     <div class="sidebar">
         <div class="sidebar-logo">
             <i class="fa-solid fa-music"></i>
-            <h2>MusicMatch</h2>
+            <h2>Beatify</h2>
         </div>
         <ul class="sidebar-menu">
             <li><a href="/"><i class="fa-solid fa-house"></i> <span>Home</span></a></li>
@@ -47,11 +47,9 @@
                                     <span class="song-tag"><%= tag.trim() %></span>
                                 <% }) %>
                             </div>
-                            
-<div class="probability-bar">
-    <div class="probability-fill" style="width: <%= song.probability * 100 %>%;"></div>
-</div>
-
+                                <div class="spotify-player">
+                                    <iframe src="https://open.spotify.com/embed/track/<%= song.spotify_id %>" width="100%" height="80" frameborder="0" allow="encrypted-media"></iframe>
+                                </div>
                             <p style="text-align: right; font-size: 0.8rem; margin-top: 4px;">
                                 Match: <%= Math.round(song.probability * 100) %>%
                             </p>
